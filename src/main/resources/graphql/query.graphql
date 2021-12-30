@@ -1,0 +1,37 @@
+type Query {
+    getUsers: [User]!
+    getUserById(id:ID!): User
+    getTodosByUserId(userId:ID!, pageInfo: PageInfo): [Todo]
+}
+
+type Mutation {
+    createTodo(todo:CreateTodoDtoIn): Todo!
+    createUser(user:CreateUserDtoIn): User!
+    updateTodo(todo:UpdateTodoDtoIn): Todo!
+}
+
+type Todo {
+    id: ID!,
+    title: String!,
+    completed: Boolean,
+    createdBy: User!
+}
+
+input CreateTodoDtoIn {
+    title: String,
+    completed: Boolean
+}
+input CreateUserDtoIn {
+    email: String
+}
+
+input UpdateTodoDtoIn {
+    id: ID!,
+    title: String,
+    completed: Boolean,
+}
+
+input PageInfo {
+    offset: Int!,
+    limit: Int!
+}

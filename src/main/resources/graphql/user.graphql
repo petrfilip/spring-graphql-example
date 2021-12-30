@@ -1,0 +1,10 @@
+type User implements Entity {
+    id: ID!,
+    email: String!,
+    todoList: [Todo]
+}
+
+enum Role {
+    ADMIN,
+    EMPLOYEE,
+}
