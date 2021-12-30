@@ -50,3 +50,6 @@ query {
 }
 ```
 
+----
+- [ ] Vylepšit přidávání todo itemů (problém s uživateli)
+- [ ] GUI
