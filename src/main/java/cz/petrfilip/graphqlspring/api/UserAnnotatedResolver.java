@@ -1,11 +1,8 @@
 package cz.petrfilip.graphqlspring.api;
 
-import cz.petrfilip.graphqlspring.api.dto.TodoDtoIn;
 import cz.petrfilip.graphqlspring.api.dto.UserDtoIn;
-import cz.petrfilip.graphqlspring.domain.Todo;
 import cz.petrfilip.graphqlspring.domain.User;
 import cz.petrfilip.graphqlspring.repository.UserRepository;
-import cz.petrfilip.graphqlspring.service.TodoService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @Slf4j
-public class UserResolver {
+public class UserAnnotatedResolver {
 
   @Autowired
   private UserRepository userRepository;

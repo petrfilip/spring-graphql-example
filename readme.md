@@ -47,7 +47,7 @@ query {
     }
 }
 ```
-
+Get all users
 ```graphql
 query {
     getUsers {
@@ -56,11 +56,51 @@ query {
     }
 }
 ```
+Recursive query
+```graphql
+query {
+    getTodosByUserIdWithAnnotationResolver(
+        userId: 2
+        pageInfo: {offset: 2, limit: 5}
+    ) {
+        id
+        title
+        completed
+        createdBy {
+            id
+            email
+            todoList {
+                id
+                title
+                createdBy {
+                    id
+                    email
+                    todoList {
+                        id
+                        title
+                        createdBy {
+                            id
+                            email
+                            todoList {
+                                title,
+                                createdBy {
+                                    email
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
 ----
 - [ ] Vylepšit přidávání todo itemů (problém s uživateli)
 - [ ] vylepšit vstupní parametry
-- [ ] Vytvořit typové resolvery ( a N+1 problém)
+- [x] Vytvořit typové resolvery 
+- [ ] Vyřešit N+1 problém
 - [ ] Vyřešit securitu
 - [ ] Přidat vlastní datové typy
 - [ ] Validace vstupních parametrů
