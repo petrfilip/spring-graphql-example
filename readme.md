@@ -8,7 +8,7 @@
 - Pro ukládání data je využita H2 databáze. 
 - Potřeba Lombok rozšíření 
 
-**!!! nejdříve je potřeba přidat několik uživatelů. ID uživatele je hard-coded na hodnotu `2`.**
+**!!! Při vytváření TODO je userId hard-coded na hodnotu `2`.**
 
 
 ### Poznámky k vývoji
