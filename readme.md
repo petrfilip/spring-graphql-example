@@ -59,6 +59,12 @@ query {
 
 ----
 - [ ] Vylepšit přidávání todo itemů (problém s uživateli)
-- [ ] GUI
-- [ ] vyčistit kód
 - [ ] vylepšit vstupní parametry
+- [ ] Vytvořit typové resolvery ( a N+1 problém)
+- [ ] Vyřešit securitu
+- [ ] Přidat vlastní datové typy
+- [ ] Validace vstupních parametrů
+- [ ] Pořešit stránkování
+- [ ] Vyzkoušet Subscription
+- [ ] Vytvořit základní GUI
+- [ ] vyčistit kód
