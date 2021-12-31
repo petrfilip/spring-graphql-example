@@ -1,6 +1,5 @@
 # Ukázka použití GraphQL a Spring Bootu
 
-GRAPHIQL: http://localhost:8080/graphiql?path=/graphql
 
 ![](graphiql.png)
 
@@ -10,6 +9,24 @@ GRAPHIQL: http://localhost:8080/graphiql?path=/graphql
 - Potřeba Lombok rozšíření 
 
 **!!! nejdříve je potřeba přidat několik uživatelů. ID uživatele je hard-coded na hodnotu `2`.**
+
+
+### Poznámky k vývoji
+Schémata ukladat do adresáře `resources/graphql`
+
+#### základní typy
+- type - definuje návratové typy
+- input - používá se jako vstup do requestů
+- enum 
+
+#### GraphQL Anotace
+- @QueryMapping - (@Argument)
+- @SchemaMapping - resolving schémat
+- @BatchMapping - resolving schémat pro N+1 dotazy
+
+## Ukázky requestů
+
+GRAPHIQL: http://localhost:8080/graphiql?path=/graphql
 
 ### Mutation
 ```graphql
@@ -59,7 +76,7 @@ query {
 Recursive query
 ```graphql
 query {
-    getTodosByUserIdWithAnnotationResolver(
+    getTodosByUserId(
         userId: 2
         pageInfo: {offset: 2, limit: 5}
     ) {
@@ -100,7 +117,7 @@ query {
 - [ ] Vylepšit přidávání todo itemů (problém s uživateli)
 - [ ] vylepšit vstupní parametry
 - [x] Vytvořit typové resolvery 
-- [ ] Vyřešit N+1 problém
+- [x] Vyřešit N+1 problém
 - [ ] Vyřešit securitu
 - [ ] Přidat vlastní datové typy
 - [ ] Validace vstupních parametrů

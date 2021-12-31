@@ -5,13 +5,15 @@ import cz.petrfilip.graphqlspring.domain.Todo;
 import cz.petrfilip.graphqlspring.domain.User;
 import cz.petrfilip.graphqlspring.repository.UserRepository;
 import cz.petrfilip.graphqlspring.service.TodoService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -33,22 +35,50 @@ public class TodoAnnotatedResolver {
     return todoService.findByCreatedBy(userId);
   }
 
-  @SchemaMapping
-  public User createdBy(Todo todo) {
-    log.info("Resolving user for todo: `{}`", todo);
-    return todo.getCreatedBy();
+  // N+1 issue
+  // @SchemaMapping
+  // public User createdBy(Todo todo) {
+  //   log.info("Resolving user for todo: `{}`", todo);
+  //   return userRepository.findById(todo.getCreatedBy().getId()).orElseThrow(RuntimeException::new);
+  // }
+
+
+  @BatchMapping // solve N+1 issue
+  public Map<Todo, User> createdBy(List<Todo> todoList) {
+    log.info("Resolving users for todos: `{}`", todoList);
+    List<User> allById = userRepository.findAllById(todoList.stream().map(todo -> todo.getCreatedBy().getId()).toList());
+    Map<Todo, User> result = new HashMap<>();
+    for (Todo todo : todoList) {
+      result.put(todo, allById.stream().filter(i -> i.getId().equals(todo.getCreatedBy().getId())).findFirst().orElseThrow());
+    }
+    return result;
+
   }
 
-  @SchemaMapping
-  public List<Todo> todoList(User user) {
-    log.info("Resolving user's todo: `{}`", user);
-    return todoService.findByCreatedBy(user.getId());
+  // N+1 issue
+  // @SchemaMapping
+  // public List<Todo> todoList(User user) {
+  //   log.info("Resolving user's todo: `{}`", user);
+  //   return todoService.findByCreatedBy(user.getId());
+  // }
+
+
+  @BatchMapping // solve N+1 issue
+  public Map<User, List<Todo>> todoList(List<User> userList) {
+    log.info("Resolving users for todos: `{}`", userList);
+    List<Todo> allById = todoService.findByCreatedByIds(userList.stream().map(User::getId).toList());
+    Map<User, List<Todo>> result = new HashMap<>();
+    for (User user : userList) {
+      result.put(user, allById.stream().filter(todo -> todo.getCreatedBy().getId().equals(user.getId())).toList());
+    }
+    return result;
+
   }
+
 
   @MutationMapping
   public Todo createTodo(@Argument TodoDtoIn todo) {
     log.info("Create todo with title `{}`", todo.title());
-
     return todoService.create(todo);
   }
 

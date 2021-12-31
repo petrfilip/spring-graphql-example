@@ -4,6 +4,7 @@ import cz.petrfilip.graphqlspring.api.dto.TodoDtoIn;
 import cz.petrfilip.graphqlspring.domain.Todo;
 import cz.petrfilip.graphqlspring.domain.User;
 import cz.petrfilip.graphqlspring.repository.TodoRepository;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,10 @@ public class TodoService {
 
   public List<Todo> findByCreatedBy(Integer userId) {
     return todoRepository.findByCreatedBy_Id(userId);
+  }
+
+  public List<Todo> findByCreatedByIds(Collection<Integer> userIds) {
+    return todoRepository.findAllByCreatedBy_Ids(userIds);
   }
 
   public Todo create(TodoDtoIn dtoIn) {
