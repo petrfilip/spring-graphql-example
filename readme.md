@@ -4,11 +4,26 @@ GRAPHIQL: http://localhost:8080/graphiql?path=/graphql
 
 ![](graphiql.png)
 
+- Běží na Javě 17. 
+- Využito _snapshot_ a _milestone_ repozitářů. 
+- Pro ukládání data je využita H2 databáze. 
+- Potřeba Lombok rozšíření 
+
+**!!! nejdříve je potřeba přidat několik uživatelů. ID uživatele je hard-coded na hodnotu `2`.**
+
 ### Mutation
+```graphql
+mutation {
+    createUser(user: {email: "email@seznam.cz"}) {
+        id
+        email
+    }
+}
+```
 
 ```graphql
 mutation {
-    createTodo(todo: {title: "asdf", completed: false}) {
+    createTodo(todo: {title: "My new todo item", completed: false}) {
         id
         title
         completed
@@ -16,14 +31,6 @@ mutation {
 }
 ```
 
-```graphql
-mutation {
-    createUser(user: {email: "asdf@asdf.cz"}) {
-        id
-        email
-    }
-}
-```
 
 ### Query
 
@@ -53,3 +60,5 @@ query {
 ----
 - [ ] Vylepšit přidávání todo itemů (problém s uživateli)
 - [ ] GUI
+- [ ] vyčistit kód
+- [ ] vylepšit vstupní parametry
